@@ -1,0 +1,70 @@
+
+uniformBeta<-function(){
+  
+  alpha <- 1/2 #setting alpha to 1/2 as it is recriprocated in the power
+  beta <- 1/4  #setting beta to 1/4 as it is recriprocated in the power 
+  counter<-0   #counter variable to check the loop condition
+  x<-vetor()   #empty vetor to store the result
+  
+  while(counter<9999){  #looping through till exit condition
+    
+    u1 <- runif(1,0,1)  #generate random number from uniform distribution
+    u2 <- runif(1,0,1)  #generate random number from uniform distribution
+    
+    y1 = u1 ^alpha      
+    y2 = u2 ^beta
+    
+    if(y1+y2<=1){       #Checking the condition for beta distribution
+      x = c(x,(y1/(y1+y2)))  #appending the result to vector
+      
+      counter = counter+1  #increase counter by 1
+    }
+    
+  }
+  
+  return(x)    #return result
+}
+
+
+
+clt_simulation<-function(size,shape,rate){    #This function accepts sample size, shape and rate of distribution as inputs
+  
+  counter = 0
+  simulated_mean = vector()
+
+  while(counter<100){
+    
+  
+  y1=rbeta(size,shape,rate)       #generating random numbers from the specified population
+  simulated_mean=c(simulated_mean,mean(y1))  #taking mean of the random variables and appending to the vector
+  
+  counter = counter + 1
+  }
+  
+  return(simulated_mean)  #return the vector containing mean of the CLT simulation
+  
+}
+
+joint_density<-function(){ 
+  counter = 0
+  l1 = vector()
+  while(counter<1000){
+    y=runif(n = 1,min =0,max = 1) #random generation from uniform distribution
+    p1=-log(y)      #solving the equation for e^(-y)=x we get y=-log(x)
+    l1=c(l1,p1)     #appending results to vector
+    counter = counter + 1
+  }
+  return(l1)
+}
+
+third<-function(){  
+  x=runif(1000,0,1) #1000 random samples from uniform distribution
+  y=rexp(1000,1)    #1000 random samples from exponetial distribution
+  
+  indices=which(x<0.5) #selecting indices from the x vector which are less than 0.5
+  y_val=y[indices] #putting the index values into a separate vector
+  result=length(which(y_val>2))/length(indices) #determining the length of vector for which y>2 and dividing by length to get the conditional probability
+  
+ 
+  return(result)
+}
